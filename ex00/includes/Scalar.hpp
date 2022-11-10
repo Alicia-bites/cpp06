@@ -22,6 +22,10 @@ class Scalar
 		~Scalar(void);
 		Scalar &operator=(Scalar const& rhs);
 
+		bool		isFloat(std::string const& string);
+		bool		isDouble(std::string const& string);
+		bool		isInt(std::string const& string);
+		bool		isChar(std::string const& string);
 		bool		isNumber(std::string const& string);
 		int			convert(std::string);
 

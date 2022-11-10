@@ -47,6 +47,26 @@ bool	Scalar::isNumber(std::string const& string)
 	return true;
 }
 
+bool	Scalar::isChar(std::string const& string)
+{
+	if (isNumber(string) == 0)
+		return true;
+	return false;
+}
+
+bool	Scalar::isInt(std::string const& string)
+{
+	if (isNumber(string))
+		return true;
+	return false;
+}
+
+bool	Scalar::isDouble(std::string const& string)
+{
+	for(int i = 0; i < string.length(); i++)
+		if ()
+}
+
 // -- GETTERS ---------------------------------------------------
 
 std::string	Scalar::getInput() const
