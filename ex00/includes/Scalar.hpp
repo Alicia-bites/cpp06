@@ -1,6 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include <string>
+#include <sstream>
+#include "colors.hpp"
 
 typedef enum	e_type
 {
@@ -15,6 +18,11 @@ class Scalar
 {
 	private:
 		std::string	input_;
+		
+		int			int_;
+		char		char_;
+		float		float_;
+		double		double_;
 	public:
 		Scalar(void);
 		Scalar(std::string& input);
@@ -22,14 +30,27 @@ class Scalar
 		~Scalar(void);
 		Scalar &operator=(Scalar const& rhs);
 
-		bool		isFloat(std::string const& string);
-		bool		isDouble(std::string const& string);
-		bool		isInt(std::string const& string);
-		bool		isChar(std::string const& string);
-		bool		isNumber(std::string const& string);
-		int			convert(std::string);
+		bool		isFloat();
+		bool		isDouble();
+		bool		isInt();
+		bool		isChar();
+		bool		isNumber();
+		int			giveType();
+		void		displayInputType();
+
+		void		fromInt();
+		void		fromChar();
+		void		fromFloat();
+		void		fromDouble();		
+
+		void		convert();
 
 		std::string	getInput() const;
+		int			getInt() const;
+		char		getChar() const;
+		float		getFloat() const;
+		double		getDouble() const;
+
 };
 
 std::ostream&	operator<<(std::ostream& o, Scalar const& rhs);
