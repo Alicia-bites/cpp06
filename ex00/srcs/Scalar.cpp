@@ -44,57 +44,68 @@ Scalar&		Scalar::operator=(Scalar const& rhs)
 
 std::ostream& operator<<(std::ostream& o, Scalar const& rhs)
 {
-	o << "Input is : "
-		<< rhs.getInput();
+	rhs.printChar(o);
+	rhs.printInt(o);
+	rhs.printFloat(o);
+	rhs.printDouble(o);
 	return o;
 }
 
 // MEMBER FUNCTIONS ----------------------------------------------
 
-bool	Scalar::isNumber()
+bool	Scalar::isNumber() const
 {
-	for (size_t i = 0; i < input_.length(); i++)
-		if (std::isdigit(input_.at(i)) == 0)
-			return false;
+	size_t i = 0;
+	if (input_.at(0) == '+' || input_.at(0) == '-')
+		i = 1;
+	while (i < input_.length())
+		if (std::isdigit(input_.at(i++)) == 0)
+				return false;
 	return true;
 }
 
-bool	Scalar::isChar()
+bool	Scalar::isChar() const
 {
 	if (isNumber() == 0)
 		return true;
 	return false;
 }
 
-bool	Scalar::isInt()
+bool	Scalar::isInt() const
 {
 	if (isNumber())
 		return true;
 	return false;
 }
 
-bool	Scalar::isDouble()
+bool	Scalar::isDouble() const
 {
+	if (input_.compare("nan") == 0 || input_.compare("+inf") == 0
+		|| input_.compare("-inf") == 0)
+		return true;
 	for(size_t i = 0; i < input_.length(); i++)
 		if (input_.at(i) == '.' && input_.at(i + 1) != '\0')
 			return true ;
 	return false;
 }
 
-bool Scalar::isFloat()
+bool Scalar::isFloat() const
 {
+	if (input_.compare("nanf") == 0 || input_.compare("+inff") == 0
+		|| input_.compare("-inff") == 0)
+		return true;
 	for(size_t i = 0; i < input_.length(); i++)
 		if (input_.at(i) == '.' && input_.at(input_.length() - 1) == 'f')
 			return true ;
 	return false;
 }
 
-int	Scalar::giveType()
+int	Scalar::giveType() const
 {
-	if (isFloat())
-		return (FLOAT);
-	else if (isDouble())
+	if (isDouble())
 		return (DOUBLE);
+	else if (isFloat())
+		return (FLOAT);
 	else if (isInt())
 		return (INT);
 	else if (isChar())
@@ -116,40 +127,107 @@ void	Scalar::displayInputType()
 		std::cout << "Input type not found." << std::endl;
 }
 
-void	Scalar::fromInt()
-{
-	static_cast<double>(input_);
-	static_cast<char>(input_);
-	static_cast<float>(input_);
-}
-
 void	Scalar::fromChar()
 {
-	static_cast<double>(input_);
-	static_cast<int>(input_);
-	static_cast<float>(input_);
+	char_ = input_[0];
+	int_ = static_cast<int>(char_);
+	char_ = static_cast<char>(char_);
+	float_ = static_cast<float>(char_);
+	double_ = static_cast<double>(char_);
 }
 
+void	Scalar::fromInt()
+{
+	// std::istringstream(input_) >> int_;
+	double_ = std::strtod(input_.c_str(), NULL); // I put the int in a double in case it's < -2147483648 or > 214748367
+	std::cout << RED1 << double_ << RESET << std::endl;
+	int_ = static_cast<int>(double_);
+	char_ = static_cast<char>(double_);
+	float_ = static_cast<float>(double_);
+	double_ = static_cast<double>(double_);
+}
 
 void	Scalar::fromFloat()
 {
-	static_cast<double>(input_);
-	static_cast<char>(input_);
-	static_cast<int>(input_);
+	// std::istringstream(input_) >> float_;
+	float_ = std::strtod(input_.c_str(), NULL);
+	// std::cout << RED1 << float_ << RESET << std::endl;
+	int_ = static_cast<int>(float_);
+	char_ = static_cast<char>(float_);
+	float_ = static_cast<float>(float_);
+	double_ = static_cast<double>(float_);
 }
 
-void	Scalar::fromInt()
+void	Scalar::fromDouble()
 {
-	static_cast<double>(input_);
-	static_cast<char>(input_);
-	static_cast<float>(input_);
+	// std::istringstream(input_) >> double_;
+	double_ = std::strtod(input_.c_str(), NULL);
+	// std::cout << RED1 << double_ << RESET << std::endl;
+	int_ = static_cast<int>(double_);
+	char_ = static_cast<char>(double_);
+	float_ = static_cast<float>(double_);
+	double_ = static_cast<double>(double_);
 }
 
 void	Scalar::convert()
 {
-	if (giveType() == INT)
-		static_cast<int>();
-	
+	displayInputType();
+	if (giveType() == CHAR)
+		fromChar();
+	else if (giveType() == INT)
+		fromInt();
+	else if (giveType() == FLOAT)
+		fromFloat();
+	else if (giveType() == DOUBLE)
+		fromDouble();
+	else
+		std::cerr << "No type found." << std::endl;
+}
+
+std::ostream&	Scalar::printChar(std::ostream& o) const
+{
+	if (int_ < 0 || int_ > 255)
+		std::cout << "char : overflow" << std::endl;
+	else if (int_ < 32 || int_ > 126)
+		std::cout << "char : Non displayable" << std::endl;
+	else
+		o << "char : " << char_ << std::endl;
+	return o;
+}
+
+std::ostream&	Scalar::printInt(std::ostream& o) const
+{
+	if (double_ < INT_MIN || double_ > INT_MAX)
+		std::cout << "int : overflow" << std::endl;
+	else
+		o << "int : " << int_ << std::endl;
+	return o;
+}
+
+bool	Scalar::dotZero() const
+{
+	if (input_.at(input_.length() -1 ) == '0'
+		&& input_.at(input_.length() - 2) == '.')
+			return true;
+	return false;
+}
+
+std::ostream&	Scalar::printFloat(std::ostream& o) const
+{
+	if ((giveType() != DOUBLE && giveType() != FLOAT) || dotZero())
+		o << "float : " << float_ << ".0f" << std::endl;
+	else
+		o << "float : " << float_ << "f" << std::endl;
+	return o;
+}
+
+std::ostream&	Scalar::printDouble(std::ostream& o) const
+{
+	if ((giveType() != DOUBLE && giveType() != FLOAT) || dotZero())
+		o << "double : " << double_ << ".0" << std::endl;
+	else
+		o << "double : " << double_ << std::endl;
+	return o;
 }
 
 // -- GETTERS ---------------------------------------------------

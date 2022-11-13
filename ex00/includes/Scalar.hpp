@@ -3,6 +3,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <cstring>
+#include <cstdlib>
+#include "limits.h"
 #include "colors.hpp"
 
 typedef enum	e_type
@@ -30,13 +33,19 @@ class Scalar
 		~Scalar(void);
 		Scalar &operator=(Scalar const& rhs);
 
-		bool		isFloat();
-		bool		isDouble();
-		bool		isInt();
-		bool		isChar();
-		bool		isNumber();
-		int			giveType();
+		bool		isFloat() const;
+		bool		isDouble() const;
+		bool		isInt() const;
+		bool		isChar() const;
+		bool		isNumber() const;
+		int			giveType() const;
+		bool		dotZero() const;
+
 		void		displayInputType();
+		std::ostream&		printChar(std::ostream& o) const;
+		std::ostream&		printInt(std::ostream& o) const;
+		std::ostream&		printFloat(std::ostream& o) const;
+		std::ostream&		printDouble(std::ostream& o) const;
 
 		void		fromInt();
 		void		fromChar();
