@@ -8,12 +8,8 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	std::string arg(argv[1]);
-	std::cout << "---------------------------------------------------------" << std::endl;
-	std::cout << std::endl;
 	Scalar	scalar(arg);
 	scalar.convert();
 	std::cout << scalar << std::endl;
-	// scalar.displayInputType();
-
 	return 0;
 }

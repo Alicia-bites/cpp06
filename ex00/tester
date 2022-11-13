@@ -1,0 +1,54 @@
+#!/bin/bash
+# Description: Tests the ex00 of the project cpp06
+
+#Colors
+RESET='\033[0m'
+DODGERBLUE1="\033[38;5;33m"
+ORANGERED1="\033[38;5;202m"
+SPRINGGREEN5="\033[38;5;41m"
+GREENYELLOW="\033[38;5;154m"
+DEEPPINK6="\033[38;5;125m"
+DARKSLATEGRAY2="\033[38;5;87m"
+CHARTREUSE6="\033[38;5;64m"
+SLATEBLUE1="\033[38;5;99m"
+
+# Functions
+getAction() {
+	text="$1"
+
+	read -p "Press any key to continue..." key
+	echo "$key"
+}
+
+startTest() {
+	testName="$1"
+	numberToConvert="$2"
+
+	echo ""
+	echo "~~~~~~~~~~~~~~~~~~~~~~"
+	echo "$DODGERBLUE1$testName:$RESET \"./convert $numberToConvert \""
+	echo ""
+	./convert "$numberToConvert"
+	getAction > /dev/null
+	echo ""
+	echo ""
+}
+
+# Compile project
+echo "Compiling project"
+make
+
+# Start testing
+startTest "Test #1" "0"
+startTest "Test #2" "nan"
+startTest "Test #3" "42.0"
+startTest "Test #4" "nanf"
+startTest "Test #5" "-2147483649"
+startTest "Test #6" "2147483648"
+startTest "Test #7" "inff"
+startTest "Test #8" "inf"
+startTest "Test #9" "a"
+startTest "Test #10" "salut"
+echo ""
+echo "THE END"
+echo ""
