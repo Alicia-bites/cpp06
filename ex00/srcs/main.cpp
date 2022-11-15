@@ -8,6 +8,8 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	std::string arg(argv[1]);
+	if (arg.compare("") == 0)
+		return 0;
 	Scalar	scalar(arg);
 	scalar.convert();
 	std::cout << scalar << std::endl;
