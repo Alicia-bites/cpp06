@@ -16,9 +16,7 @@ Scalar::Scalar(std::string& string)
 , char_(0)
 , float_(0)
 , double_(0)
-{
-
-}
+{}
 
 // copy constructor
 Scalar::Scalar(Scalar const& ori)
@@ -56,6 +54,8 @@ std::ostream& operator<<(std::ostream& o, Scalar const& rhs)
 bool	Scalar::isNumber() const
 {
 	size_t i = 0;
+	if (input_.compare("+") == 0 || input_.compare("-") == 0)
+		return false;
 	if (input_.at(0) == '+' || input_.at(0) == '-')
 		i = 1;
 	while (i < input_.length())
@@ -171,7 +171,7 @@ void	Scalar::fromDouble()
 
 void	Scalar::convert()
 {
-	// displayInputType();
+	displayInputType();
 	if (giveType() == CHAR)
 		fromChar();
 	else if (giveType() == INT)
@@ -187,7 +187,7 @@ void	Scalar::convert()
 std::ostream&	Scalar::printChar(std::ostream& o) const
 {
 	if (input_.compare("nan") == 0 || input_.compare("nanf") == 0)
-		std::cout << "int : impossible" << std::endl;
+		std::cout << "char : impossible" << std::endl;
 	else if (int_ < 0 || int_ > 255)
 		std::cout << "char : overflow" << std::endl;
 	else if (int_ < 32 || int_ > 126)
