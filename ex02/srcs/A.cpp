@@ -3,5 +3,10 @@
 A::A()
 {}
 
-A::~A( void )
+A::A(A const& ori)
+{
+	(void)ori;
+}
+
+A::~A()
 {}
