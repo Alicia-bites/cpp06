@@ -33,32 +33,32 @@ class Scalar
 		~Scalar(void);
 		Scalar &operator=(Scalar const& rhs);
 
-		bool		isFloat() const;
-		bool		isDouble() const;
-		bool		isInt() const;
-		bool		isChar() const;
-		bool		isNumber() const;
-		int			giveType() const;
-		bool		dotZero() const;
+		bool				isFloat() const;
+		bool				isDouble() const;
+		bool				isInt() const;
+		bool				isChar() const;
+		bool				isNumber() const;
+		int					giveType() const;
+		bool				dotZero() const;
 
-		void		displayInputType();
+		void				displayInputType();
 		std::ostream&		printChar(std::ostream& o) const;
 		std::ostream&		printInt(std::ostream& o) const;
 		std::ostream&		printFloat(std::ostream& o) const;
 		std::ostream&		printDouble(std::ostream& o) const;
 
-		void		fromInt();
-		void		fromChar();
-		void		fromFloat();
-		void		fromDouble();		
+		void				fromInt();
+		void				fromChar();
+		void				fromFloat();
+		void				fromDouble();		
 
-		void		convert();
+		void				convert();
 
-		std::string	getInput() const;
-		int			getInt() const;
-		char		getChar() const;
-		float		getFloat() const;
-		double		getDouble() const;
+		std::string			getInput() const;
+		int					getInt() const;
+		char				getChar() const;
+		float				getFloat() const;
+		double				getDouble() const;
 
 };
 
