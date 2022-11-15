@@ -19,41 +19,43 @@ Base	*generate()
 
 bool	isA(Base *p)
 {
-	B* my_b = dynamic_cast<B*>(p);
-	if (my_b != NULL)
-		std::cout << "The real type of the object pointed by p is : "
-			<< "b" << std::endl;
-	else
-	    std::cerr << "Cet objet n'est pas de type B" << std::endl;
+	A* my_a = dynamic_cast<A*>(p);
+	if (my_a != NULL)
+		return 1;
+	return 0;
 }
 
 bool	isB(Base *p)
 {
 	B* my_b = dynamic_cast<B*>(p);
 	if (my_b != NULL)
-	{
-		std::cout << "The real type of the object pointed by p is : "
-			<< "b" << std::endl;
 		return 1;
-	}
-	else
-	    std::cerr << "Cet objet n'est pas de type B" << std::endl;
+	return 0;
 }
 
 bool	isC(Base *p)
 {
-	B* my_b = dynamic_cast<B*>(p);
-	if (my_b != NULL)
-		std::cout << "The real type of the object pointed by p is : "
-			<< "b" << std::endl;
-	else
-	    std::cerr << "Cet objet n'est pas de type B" << std::endl;
+	C* my_c = dynamic_cast<C*>(p);
+	if (my_c != NULL)
+		return 1;
+	return 0;
 }
 
 
 void	identify(Base *p)
 {
-	isB(p);
+	if (isA(p))
+		std::cout << "The real type of the object pointed by p is : "
+			<< "A" << std::endl;
+	else if (isB(p))
+		std::cout << "The real type of the object pointed by p is : "
+			<< "B" << std::endl;
+	else if (isC(p))
+		std::cout << "The real type of the object pointed by p is : "
+			<< "C" << std::endl;
+	else
+		std::cerr << RED1 << "No type found" << RESET << std::endl;
+
 }
 
 int	main()
@@ -62,5 +64,5 @@ int	main()
 
 	p = generate();
 	(void)p;
-	// identify(p);
+	identify(p);
 }
